@@ -12,3 +12,11 @@ cv2.waitKey(0)
 cv2.destroyAllWindows()
 
 l, u, v = cv2.split(img)
+
+# calculate frequency of pixels in range 0-255
+
+histl = cv2.calcHist([l], [0], None, [256], [0, 256])
+histu = cv2.calcHist([u], [0], None, [256], [0, 256])
+histv = cv2.calcHist([v], [0], None, [256], [0, 256])
+
+print(len(histl),len(histu),len(histv))
