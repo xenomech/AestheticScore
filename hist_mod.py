@@ -7,9 +7,9 @@ from matplotlib import pyplot as plt
 img = cv2.imread('ex.jpg')
 img = cv2.cvtColor(img, cv2.COLOR_BGR2Luv)
 img = cv2.resize(img, (225, 225))
-cv2.imshow("frame",img)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+# cv2.imshow("frame",img)
+# cv2.waitKey(0)
+# cv2.destroyAllWindows()
 
 l, u, v = cv2.split(img)
 
@@ -19,4 +19,8 @@ histl = cv2.calcHist([l], [0], None, [256], [0, 256])
 histu = cv2.calcHist([u], [0], None, [256], [0, 256])
 histv = cv2.calcHist([v], [0], None, [256], [0, 256])
 
-print(len(histl),len(histu),len(histv))
+eq_histl = cv2.equalizeHist(l)
+eq_histu = cv2.equalizeHist(u)
+eq_histv = cv2.equalizeHist(v)
+
+
