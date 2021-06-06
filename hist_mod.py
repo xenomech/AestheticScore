@@ -13,14 +13,28 @@ img = cv2.resize(img, (225, 225))
 
 l, u, v = cv2.split(img)
 
-# calculate frequency of pixels in range 0-255
-
-histl = cv2.calcHist([l], [0], None, [256], [0, 256])
-histu = cv2.calcHist([u], [0], None, [256], [0, 256])
-histv = cv2.calcHist([v], [0], None, [256], [0, 256])
-
 eq_histl = cv2.equalizeHist(l)
 eq_histu = cv2.equalizeHist(u)
 eq_histv = cv2.equalizeHist(v)
+
+# calculate frequency of pixels in range 0-255
+
+histl = cv2.calcHist([l], [0], None, [len(eq_histl)], [0, len(eq_histl)])
+histu = cv2.calcHist([u], [0], None, [len(eq_histu)], [0, len(eq_histu)])
+histv = cv2.calcHist([v], [0], None, [len(eq_histv)], [0, len(eq_histv)])
+
+
+# finding sum of squares
+sum_sql = np.sum(np.square(eq_histl - histl))
+sum_squ = np.sum(np.square(eq_histu - histu))
+sum_sqv = np.sum(np.square(eq_histv - histv))
+
+  
+# Doing squareroot and
+d_l=np.sqrt(sum_sql)/2
+d_u=np.sqrt(sum_squ)/2
+d_v=np.sqrt(sum_sqv)/2
+# printing Euclidean distance
+print(d_l,d_u,d_v)
 
 
