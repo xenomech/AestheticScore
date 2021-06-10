@@ -6,24 +6,24 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 
-def compress(file, frames):
+def compress(file):
 
     # Get the path of the file
-    filepath = os.path.join(os.getcwd(), "frames/"+file)
+    #filepath = os.path.join(os.getcwd(), "frames/"+file)
     savepath = os.path.join(os.getcwd(), "compressed")
     # print(savepath)
     # open the image
-    picture = Image.open(filepath)
-    picture.save(savepath+"/Compressed_"+file,
+    picture = Image.open(file)
+    picture.save(savepath+"/Compressed_"+os.path.basename(file),
                  "JPEG", optimize=True, quality=10)
-    size = os.path.getsize(savepath+"/Compressed_"+file)
+    size = os.path.getsize(savepath+"/Compressed_"+os.path.basename(file))
     return size
 
 
 def colorfulness(file):
-    filepath = os.path.join(os.getcwd(), "frames/"+file)
+    # filepath = os.path.join(os.getcwd(), "frames/"+file)
     # load an image in grayscale mode
-    img = cv2.imread(filepath)
+    img = cv2.imread(file)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2Luv)
     img = cv2.resize(img, (225, 225))
     # cv2.imshow("frame",img)
@@ -55,31 +55,31 @@ def colorfulness(file):
     return ((d_l+d_u+d_v)/3)/1000000
 
 
-def main():
+def main(file):
     # finds current working dir
-    frames = os.path.join(os.getcwd(), "frames")
+    # frames = os.path.join(os.getcwd(), "frames")
     formats = ('.jpg', '.jpeg')
-    complexscore = []
-    colourfulnessscore = []
+    # complexscore = []
+    # colourfulnessscore = []
     # looping through all the files
     # in a current directory
-    for file in os.listdir(frames):
+    # for file in os.listdir(frames):
         # If the file format is JPG or JPEG
-        if os.path.splitext(file)[1].lower() in formats:
+    if os.path.splitext(file)[1].lower() in formats:
             # print('compressing', file)
-            compresedframesize = compress(file, frames)
-            ogframesize = os.path.getsize(frames+"/"+file)
-            cr = ogframesize/compresedframesize
-            crate = 1/cr
-            cscore = crate/2
-            complexscore.append(cscore)
-            clrscore = colorfulness(file)
-            colourfulnessscore.append(clrscore)
+        compresedframesize = compress(file)
+        ogframesize = os.path.getsize(file)
+        cr = ogframesize/compresedframesize
+        crate = 1/cr
+        cscore = crate/2
+        # complexscore.append(cscore)
+        clrscore = colorfulness(file)
+        # colourfulnessscore.append(clrscore)
 
-    return complexscore, colourfulnessscore
+    return cscore,clrscore 
 
 
 if __name__ == "__main__":
-    a, b = main()
+    a, b = main('/home/xenomech/wallpapers/berg.jpg')
     print(a)
     print(b)
